@@ -1,12 +1,17 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { BasketProvider } from "./Context"; // Ensure correct import
+import HotelRoom from './screens/HotelRoom'; // Ensure correct import
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <BasketProvider>
+      <View style={styles.container}>
+        <HotelRoom />
+        <StatusBar style="auto" />
+      </View>
+    </BasketProvider>
   );
 }
 
