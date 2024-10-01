@@ -22,6 +22,47 @@ const Menu = ({ menu, cart, setCart }) => {
   const bestSeller = true;
   const [additems, setAdditems] = useState(0);
 
+  const addToCart = () => {
+    setAdditems(additems + 1);
+
+    // Check if the item already exists in the cart
+    const itemIndex = cart.findIndex((item) => item.id === menu.id);
+    if (itemIndex > -1) {
+      
+      const updatedCart = cart.map((item, index) => {
+        if (index === itemIndex) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+      setCart(updatedCart);
+    } else {
+      
+      setCart([...cart, { ...menu, quantity: 1 }]);
+    }
+  };
+
+  const removeFromCart = () => {
+    if (additems <= 0) return;
+    setAdditems(additems - 1);
+
+    // Check if the item exists in the cart
+    const itemIndex = cart.findIndex((item) => item.id === menu.id);
+    if (itemIndex > -1) {
+      const updatedCart = cart.map((item, index) => {
+        if (index === itemIndex) {
+          const newQuantity = item.quantity - 1;
+          if (newQuantity > 0) {
+            return { ...item, quantity: newQuantity };
+          }
+          return null; // Mark for removal
+        }
+        return item;
+      }).filter(item => item !== null);
+      setCart(updatedCart);
+    }
+  };
+
 
   return (
     // <Pressable>
@@ -55,41 +96,8 @@ const Menu = ({ menu, cart, setCart }) => {
                 fontWeight: "600",
               }}
             >
-              {menu.price}
+              ₹{menu.price}
             </Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text
-                style={{
-                  marginLeft: 10,
-                  backgroundColor: "#FFFFF0",
-                  padding: 3,
-                  borderRadius: 4,
-                }}
-              >
-                {[0, 0, 0, 0, 0].map((en, i) => (
-                  <FontAwesome
-                    key={`${menu.id}-${i}`}
-                    style={{ margin: 2, marginHorizontal: 3 }}
-                    name={i < Math.floor(menu.star) ? "star" : "star-o"}
-                    size={13}
-                    color="#FFD700"
-                  />
-                ))}
-              </Text>
-              <Text
-                style={{
-                  marginLeft: 10,
-                  padding: 2,
-                  paddingHorizontal: 4,
-                  borderRadius: 5,
-                  fontSize: 13,
-                  backgroundColor: "#FFF5EE",
-                  color: "#E52B50",
-                }}
-              >
-                {(bestSeller && menu.bestSeller) || menu.mustTry}
-              </Text>
-            </View>
             <View
               style={{
                 flexDirection: "row",
@@ -106,7 +114,7 @@ const Menu = ({ menu, cart, setCart }) => {
                   padding: 4,
                 }}
               >
-                <Entypo name="heart-outlined" size={24} color="red" />
+                <Entypo name="heart-outlined" size={24} color="#675DFF" />
               </Pressable>
               <Pressable
                 style={{
@@ -120,7 +128,7 @@ const Menu = ({ menu, cart, setCart }) => {
                 <MaterialCommunityIcons
                   name="share-outline"
                   size={24}
-                  color="red"
+                  color="#675DFF"
                 />
               </Pressable>
             </View>
@@ -147,22 +155,19 @@ const Menu = ({ menu, cart, setCart }) => {
             top: 115,
             flexDirection: "row",
             alignItems: "center",
-            backgroundColor: "#FF3366",
+            backgroundColor: "#675DFF",
             borderRadius: 5,
           }}
         >
-          <Pressable
-            onPress={() => {
-              setAdditems(Math.max(0, additems - 1));
-              setCart(cart.filter((p) => p.id !== menu.id));
-            }}
-          >
+
+          <Pressable onPress={removeFromCart}>
             <Text
               style={{ fontSize: 25, color: "white", paddingHorizontal: 10 }}
             >
               -
             </Text>
           </Pressable>
+
 
           <Pressable>
             <Text
@@ -172,18 +177,16 @@ const Menu = ({ menu, cart, setCart }) => {
             </Text>
           </Pressable>
 
-          <Pressable
-            onPress={() => {
-              setCart([...cart, menu]);
-              setAdditems(additems + 1);
-            }}
-          >
+
+          <Pressable onPress={addToCart}>
             <Text
               style={{ fontSize: 20, color: "white", paddingHorizontal: 10 }}
             >
               +
             </Text>
           </Pressable>
+
+
         </Pressable>
       </ScrollView>
     </Pressable>

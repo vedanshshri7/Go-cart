@@ -1,24 +1,18 @@
-import ladyFinger from "../assets/ladyfinger.jpg"; 
-import jackFruit from "../assets/Jackfruit.jpg"; 
-import onion from "../assets/onion.jpg"; 
-import potato from "../assets/potato.jpg"; 
+// import LadyFinger from "../assets/ladyfinger"
+// import Potato from "../assets/ladyfinger"
+// import LadyFinger from "../assets/ladyfinger"
+// import LadyFinger from "../assets/ladyfinger"
 
 const menu =  [
   {
     id: "1",
     name: "Lady Finger",
     price: "₹190",
-    review: 340,
-    star: 4,
-    bestSeller: "bestseller",
     image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEahRgmE0FWYRXY9EavY2ISodsl8S2o0AttKn7yFxbTGtRAma2WVH8dcEMz9FJoo8Hfms&usqp=CAU",
   },
   {
     id: "2",
-    name: "Potato",
-    review: 120,
-    star: 4.3,
-    bestSeller: "bestseller",
+    name: "Potato", 
     price: "₹160",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEahRgmE0FWYRXY9EavY2ISodsl8S2o0AttKn7yFxbTGtRAma2WVH8dcEMz9FJoo8Hfms&usqp=CAU",
@@ -26,20 +20,16 @@ const menu =  [
   {
     id: "3",
     name: "Onion",
-    review: 190,
-    star: 5,
     price: "₹250",
-    mustTry: "Must try",
+    
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ8l64pcgGLabTz1X5LY_bxmm3uh6fC1r-9w&usqp=CAU",
   },
   {
     id: "4",
     name: "Jack",
-    review: 290,
-    star: 3,
     price: "₹210",
-    bestSeller: "bestseller",
+    
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEAyEksZRDMXZ3END0K3w_TRTOfX8RLYqkAA&usqp=CAU",
   },

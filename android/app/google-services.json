@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1016076945048",
+    "project_id": "ordercart-fd79d",
+    "storage_bucket": "ordercart-fd79d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016076945048:android:57589100a8e38de3c272ed",
+        "android_client_info": {
+          "package_name": "com.anonymous.order"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD98DIARbwMW_oTRuIsklOQjkj_EZaNmqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

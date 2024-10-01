@@ -15,21 +15,30 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import FinalCheckout from "./FinalCheckout";
 
+import uploadCartItems from "../uploadCartItems";
+
+
 const ViewCart = (props) => {
   const { cart, setCart } = useContext(CartItems);
   const [modal, setModal] = useState(false);
   const total = cart
-    .map((item) => Number(item.price.replace("₹", "")))
+    .map((item) => item.price * item.quantity) // Multiply by quantity
     .reduce((prev, curr) => prev + curr, 0);
-  const deliveryCharge = 30;
-  const donation = 3;
-  const { restaurentName } = props;
+
+
+  const VendorName = props.VendorName;
+
 
   const onPress = () => {
     setModal(false);
     setCart([]);
     // Add any additional logic for placing the order
   };
+
+  const handleOrder = () => {
+    uploadCartItems(cart);
+  };
+
 
   const checkOut = () => (
     <View
@@ -57,14 +66,14 @@ const ViewCart = (props) => {
       <View
         style={{
           backgroundColor: "white",
-          height: 500,
+          height: 400,
           borderTopRightRadius: 10,
           borderTopLeftRadius: 10,
         }}
       >
         <Text
           style={{
-            color: "red",
+            color: "black",
             textAlign: "center",
             paddingTop: 12,
             fontSize: 17,
@@ -73,7 +82,7 @@ const ViewCart = (props) => {
             borderBottomWidth: 0.8,
           }}
         >
-          {restaurentName}
+          {VendorName}
         </Text>
         <View
           style={{
@@ -93,7 +102,7 @@ const ViewCart = (props) => {
               marginLeft: 6,
             }}
           >
-            Delivery in 30 mins
+            Delivery in 2 hour 30 mins
           </Text>
         </View>
         <ScrollView>
@@ -106,133 +115,6 @@ const ViewCart = (props) => {
               borderBottomWidth: 1,
             }}
           />
-          <View style={{ padding: 10 }}>
-            <Text style={{ fontSize: 18, paddingBottom: 4 }}>Offers</Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <MaterialCommunityIcons
-                name="brightness-percent"
-                size={24}
-                color="blue"
-              />
-              <Text style={{ marginLeft: 10 }}>Select a Promo code</Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              borderBottomColor: "#D0D0D0",
-              borderBottomWidth: 1,
-            }}
-          />
-
-          <View style={{ padding: 10 }}>
-            <Text
-              style={{ fontSize: 16, fontWeight: "bold", paddingBottom: 10 }}
-            >
-              Climate conscious delivery
-            </Text>
-            <View>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <MaterialCommunityIcons
-                  name="food-fork-drink"
-                  size={27}
-                  color="#ADFF2F"
-                />
-                <View style={{ marginLeft: 10 }}>
-                  <Text
-                    style={{
-                      color: "#228B22",
-                      fontWeight: "600",
-                      fontSize: 15,
-                    }}
-                  >
-                    Don't send cutlery, tissues, and straws
-                  </Text>
-                  <Text
-                    style={{
-                      color: "black",
-                      fontWeight: "600",
-                      fontSize: 14,
-                    }}
-                  >
-                    Thank you for caring about the environment
-                  </Text>
-                </View>
-                <Pressable>
-                  <AntDesign
-                    style={{ marginLeft: 10 }}
-                    name="checksquare"
-                    size={24}
-                    color="green"
-                  />
-                </Pressable>
-              </View>
-            </View>
-          </View>
-
-          <View
-            style={{
-              borderBottomColor: "#D0D0D0",
-              borderBottomWidth: 0.8,
-            }}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              padding: 10,
-            }}
-          >
-            <FontAwesome5 name="leaf" size={24} color="#20B2AA" />
-            <Text style={{ marginLeft: 10, fontSize: 15 }}>
-              We fund environmental projects to offset carbon footprint of our deliveries
-            </Text>
-          </View>
-
-          <View
-            style={{
-              borderBottomColor: "#D0D0D0",
-              borderBottomWidth: 3,
-            }}
-          />
-
-          <View style={{ backgroundColor: "#FEF5E7" }}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: 10,
-              }}
-            >
-              <Text>Item total</Text>
-              <Text>{" ₹"}{total}</Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: 10,
-              }}
-            >
-              <Text>Delivery charge upto 1 km</Text>
-              <Text>{" ₹"}{deliveryCharge}</Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: 10,
-              }}
-            >
-              <Text>Donate ₹3 to Feeding India</Text>
-              <Text>{" ₹"}{donation}</Text>
-            </View>
-          </View>
 
           <View
             style={{
@@ -241,6 +123,7 @@ const ViewCart = (props) => {
             }}
           />
         </ScrollView>
+
 
         <View
           style={{
@@ -258,7 +141,7 @@ const ViewCart = (props) => {
         >
           <Text
             style={{
-              color: "red",
+              color: "#675DFF",
               fontWeight: "bold",
               paddingBottom: 3,
               fontSize: 17,
@@ -266,66 +149,75 @@ const ViewCart = (props) => {
           >
             Grand Total
           </Text>
-          <Text style={{ color: "red", fontSize: 17, fontWeight: "600" }}>
-            {"₹"}{total + donation + deliveryCharge}
+          <Text style={{ color: "#675DFF", fontSize: 17, fontWeight: "600" }}>
+            {"₹"}{total}
           </Text>
         </View>
+
         <TouchableOpacity
           onPress={onPress}
           style={{
-            backgroundColor: "#e52d27",
+            backgroundColor: "#675DFF",
             padding: 10,
             alignItems: "center",
-            backgroundColor: "#e52d27",
+
           }}
           activeOpacity={0.9}
         >
-          <Text style={{ color: "white", fontSize: 17, fontWeight: "700" }}>
+
+          {/* 
+          <Pressable style={{ color: "white", fontSize: 17, fontWeight: "700" }} onPress={handleOrder} >
+            Place Order
+          </Pressable> */}
+          <Pressable onPress={handleOrder} >
+          <Text style={{ color: "white", fontSize: 17, fontWeight: "700" }}  >
             Place Order
           </Text>
-        </TouchableOpacity>
-      </View>
+        </Pressable>
+
+      </TouchableOpacity>
     </View>
+    </View >
   );
 
-  return (
-    <>
-      <Modal
-        animationType="slide"
-        visible={modal}
-        transparent={true}
-        onRequestClose={() => setModal(false)}
-      >
-        {checkOut()}
-      </Modal>
-      <View>
-        {total === 0 ? null : (
-          <Pressable
+return (
+  <>
+    <Modal
+      animationType="slide"
+      visible={modal}
+      transparent={true}
+      onRequestClose={() => setModal(false)}
+    >
+      {checkOut()}
+    </Modal>
+    <View>
+      {total === 0 ? null : (
+        <Pressable
+          style={{
+            position: "absolute",
+            bottom: 30,
+            left: 100,
+            borderRadius: 6,
+            backgroundColor: "#675DFF",
+          }}
+          onPress={() => setModal(true)}
+        >
+          <Text
             style={{
-              position: "absolute",
-              bottom: 30,
-              left: 100,
-              borderRadius: 6,
-              backgroundColor: "#FF3366",
+              color: "white",
+              fontSize: 18,
+              textAlign: "center",
+              padding: 10,
+              width: 180,
             }}
-            onPress={() => setModal(true)}
           >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                textAlign: "center",
-                padding: 10,
-                width: 180,
-              }}
-            >
-              View Cart • {"₹"}{total}
-            </Text>
-          </Pressable>
-        )}
-      </View>
-    </>
-  );
+            View Cart • {"₹"}{total}
+          </Text>
+        </Pressable>
+      )}
+    </View>
+  </>
+);
 };
 
 export default ViewCart;

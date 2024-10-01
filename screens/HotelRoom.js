@@ -17,19 +17,29 @@ import menu from "../data/menuData";
 import { Pressable } from "react-native";
 import ViewCart from "../components/ViewCart";
 
+import { useEffect, useState } from 'react';
+import { getPosts } from '../firetest';
+
 const { width } = Dimensions.get("window");
 
 const HotelRoom = () => {
   const { cart, setCart, additems, setAdditems } = useContext(CartItems);
   const { menuData } = useContext(CartItems);
   const items = menu;
-  const vegetableName = "Ramesh Babu";
+  const VendorName = "Ramesh Babu";
   const latitude = 0;
   const longitude = 0;
 
   const Onpress = () => {
     console.warn("button pressed");
   };
+
+ 
+  const [data, setData] = useState([]);
+  useEffect(()=>{
+    getPosts(setData);
+  }, [])
+  // console.log(data);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -98,7 +108,7 @@ const HotelRoom = () => {
           }}
         >
           <View>
-            <Text style={styles.name}>{vegetableName}</Text>
+            <Text style={styles.name}>{VendorName}</Text>
             <Text style={styles.vehicle}>Ev Vehicle</Text>
             <Text style={styles.cartNo}>GCV328184</Text>
           </View>
@@ -139,7 +149,7 @@ const HotelRoom = () => {
             <View
               style={{
                 marginTop: 10,
-                backgroundColor: "#ee0979",
+                backgroundColor: "#675DFF",
                 paddingHorizontal: 10,
                 marginHorizontal: 10,
                 padding: 5,
@@ -242,29 +252,26 @@ const HotelRoom = () => {
           <Text style={{ fontSize: 17, fontWeight: "700" }}>Vegetables List</Text>
           <Text
             style={{
-              backgroundColor: "#ff1493",
+              backgroundColor: "#675DFF",
               width: 74,
               height: 3,
               marginTop: 6,
             }}
           ></Text>
         </View>
-        {/* Render the Menu Items */}
-        {menuData.map((item, index) => (
+        {/*  Menu Items */}
+        {data.map((item, index) => (
           <Menu
             cart={cart}
             setCart={setCart}
             key={index}
             menu={item}
-            vegetableName={vegetableName}
           />
         ))}
 
-        {/* Ensure ViewCart is Visible */}
+        {/* ViewCart is Visible */}
         <ViewCart
-          vegetableName={vegetableName}
-          latitude={latitude}
-          longitude={longitude}
+          VendorName={VendorName}
         />
       </ScrollView>
     </SafeAreaView>
